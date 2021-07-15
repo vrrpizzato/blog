@@ -9,15 +9,22 @@ defmodule BlogWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  # coveralls-ignore-start
   pipeline :api do
     plug :accepts, ["json"]
   end
+  # coveralls-ignore-stop
 
   scope "/", BlogWeb do
     pipe_through :browser
 
-  # METHOD RESOURCE     MODULE        FUNCTION
-     get     "/",    PageController,   :index
+  # METHOD    RESOURCE       MODULE         FUNCTION
+
+     get      "/posts",  PostController,      :index
+     get      "/posts/new",  PostController,  :new
+     post     "/posts/new",  PostController,  :create
+     get      "/posts/:id",  PostController,  :show
+     get      "/",       PageController,      :index
   end
 
   # Other scopes may use custom stacks.
@@ -32,6 +39,8 @@ defmodule BlogWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
+
+  # coveralls-ignore-start
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
@@ -40,4 +49,5 @@ defmodule BlogWeb.Router do
       live_dashboard "/dashboard", metrics: BlogWeb.Telemetry
     end
   end
+  # coveralls-ignore-stop
 end
