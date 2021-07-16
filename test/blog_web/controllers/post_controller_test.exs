@@ -62,9 +62,7 @@ defmodule BlogWeb.PostControllerTest do
       assert_error_sent 404, fn ->
         get(conn, Routes.post_path(conn, :show, post))
       end
-
     end
-
   end
 
   test "lista de posts", %{conn: conn} do
@@ -83,9 +81,7 @@ defmodule BlogWeb.PostControllerTest do
     assert html_response(conn, 200) =~ "Phoenix Framework"
   end
 
-
   defp criar_post(_) do
     %{post: fixture(:post)}
   end
-
 end

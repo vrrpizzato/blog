@@ -7,8 +7,8 @@ defmodule Blog.MixProject do
       version: "0.1.0",
       elixir: "~> 1.7",
       description: "Projeto de aprendizagem em Elixir",
-      source_url: "",
-      homepage_url: "",
+      source_url: "https://github.com/vrrpizzato/blog.git",
+      homepage_url: "https://github.com/vrrpizzato/blog.git",
       files: ~w[mix.exs lib LICENSE.md README.md CHANGELOG.md],
       package: [
         maintainers: [],
