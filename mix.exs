@@ -1,5 +1,4 @@
 defmodule Blog.MixProject do
-
   use Mix.Project
 
   def project do
@@ -14,11 +13,11 @@ defmodule Blog.MixProject do
       package: [
         maintainers: [],
         license: [],
-        links: %{},
+        links: %{}
       ],
       docs: [
         main: [],
-        extras: [],
+        extras: []
       ],
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -68,7 +67,10 @@ defmodule Blog.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.8", only: :dev},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:ex_doc, "~> 0.19.3", only: [:dev]},
+      {:earmark, "~> 1.3", only: [:dev]},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
     ]
   end
 

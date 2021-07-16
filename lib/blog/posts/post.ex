@@ -14,5 +14,4 @@ defmodule Blog.Posts.Post do
     |> cast(attrs, [:title, :description])
     |> validate_required([:title, :description], message: "Campo obrigatório!")
   end
-
 end

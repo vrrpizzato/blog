@@ -13,18 +13,25 @@ defmodule BlogWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
+
   # coveralls-ignore-stop
 
   scope "/", BlogWeb do
     pipe_through :browser
 
-  # METHOD    RESOURCE       MODULE         FUNCTION
+    # METHOD    RESOURCE       MODULE         FUNCTION
 
-     get      "/posts",  PostController,      :index
-     get      "/posts/new",  PostController,  :new
-     post     "/posts/new",  PostController,  :create
-     get      "/posts/:id",  PostController,  :show
-     get      "/",       PageController,      :index
+    # get "/posts", PostController, :index
+    # post "/posts/", PostController, :create
+    # get "/posts/:id/edit", PostController, :edit
+    # put "/posts/:id", PostController, :update
+    # delete "/posts/:id", PostController, :delete
+    # get "/posts/new", PostController, :new
+    # get "/posts/:id", PostController, :show
+
+    resources "/posts", PostController
+
+    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -49,5 +56,6 @@ defmodule BlogWeb.Router do
       live_dashboard "/dashboard", metrics: BlogWeb.Telemetry
     end
   end
+
   # coveralls-ignore-stop
 end
