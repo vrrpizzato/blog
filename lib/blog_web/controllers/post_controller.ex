@@ -38,16 +38,16 @@ defmodule BlogWeb.PostController do
   end
 
   def update(conn, %{"id" => id, "post" => post_params}) do
-    post = Posts.update_post(id, post_params)
+    post = Posts.get_post!(id)
 
-    case post do
+    case Posts.update_post(post, post_params) do
       {:ok, post} ->
         conn
         |> put_flash(:info, "Post atualizado com sucesso!")
         |> redirect(to: Routes.post_path(conn, :show, post))
 
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, post: post)
     end
   end
 

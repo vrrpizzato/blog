@@ -36,7 +36,7 @@ defmodule Blog.PostsTest do
 
     test "update_post" do
       post = post_fixture()
-      assert {:ok, %Post{} = post} = Posts.update_post(post.id, @update_post)
+      assert {:ok, %Post{} = post} = Posts.update_post(post, @update_post)
       assert post.title == "Framework Phoenix"
     end
 
