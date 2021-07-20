@@ -78,7 +78,7 @@ jobs:
         run: mix coveralls.json
       - uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.1a2f6a2d-c636-4be3-9514-3dc88c81d3f7 }}
+          token: ${{ secrets.CODECOV_TOKEN }}
     services:
       postgres-network:
         image: postgres
