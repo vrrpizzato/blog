@@ -81,12 +81,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
     services:
       postgres-network:
-        image: postgres:12
+        image: postgres
         ports: ['5432:5432']
         env:
           POSTGRES_PASSWORD: postgres
           options: >-
-            --health-cmd postgres-network_isready
+            --health-cmd postgres_isready
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5s
