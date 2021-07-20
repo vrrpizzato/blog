@@ -2,21 +2,22 @@ defmodule Blog.PostsTest do
   use Blog.DataCase
   alias Blog.{Posts, Posts.Post}
 
+  @valid_post %{
+    title: "Phoenix Framework",
+    description: "Lorem Ipsum"
+  }
+
+  @update_post %{
+    title: "Framework Phoenix",
+    description: "Ipsum Lorem"
+  }
+
+  def post_fixture(attrs \\ %{}) do
+    {:ok, post} = Posts.create_post(@valid_post)
+    post
+  end
+
   describe "Testes de funcionalidades de Contexto do Post" do
-    @valid_post %{
-      title: "Phoenix Framework",
-      description: "Lorem Ipsum"
-    }
-
-    @update_post %{
-      title: "Framework Phoenix",
-      description: "Ipsum Lorem"
-    }
-
-    def post_fixture(attrs \\ %{}) do
-      {:ok, post} = Posts.create_post(@valid_post)
-      post
-    end
 
     test "create_post" do
       post = post_fixture()

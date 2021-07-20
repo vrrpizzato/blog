@@ -78,15 +78,15 @@ jobs:
         run: mix coveralls.json
       - uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.1a2f6a2d-c636-4be3-9514-3dc88c81d3f7 }}
     services:
       postgres-network:
-        image: postgres:12
+        image: postgres
         ports: ['5432:5432']
         env:
           POSTGRES_PASSWORD: postgres
           options: >-
-            --health-cmd postgres-network_isready
+            --health-cmd postgres_isready
             --health-interval 10s
             --health-timeout 5s
             --health-retries 5s
