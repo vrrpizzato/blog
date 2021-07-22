@@ -10,7 +10,7 @@
               <%= text_input f, :title, id: "title", class: "validate" %>
               <span class="helper-text" data-error="wrong" data-success="right">
                 <% error_tag f, :tittle %>
-                </span>
+              </span>
             </div>
           </div>
 
@@ -20,7 +20,7 @@
               <%= textarea f, :description, id: "description", class: "materialize-textarea" %>
               <span class="helper-text" data-error="wrong" data-success="right">
                 <% error_tag f, :description %>
-                </span>
+              </span>
             </div>
           </div>
 
