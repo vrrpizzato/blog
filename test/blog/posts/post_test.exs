@@ -18,7 +18,6 @@ defmodule Blog.PostsTest do
   end
 
   describe "Testes de funcionalidades de Contexto do Post" do
-
     test "create_post" do
       post = post_fixture()
       assert post.title == "Phoenix Framework"

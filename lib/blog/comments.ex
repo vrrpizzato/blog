@@ -55,9 +55,9 @@ defmodule Blog.Comments do
     |> change_comment(attrs)
     |> Repo.insert()
 
-    #%Comment{}
-    #|> Comment.changeset(attrs)
-    #|> Repo.insert()
+    # %Comment{}
+    # |> Comment.changeset(attrs)
+    # |> Repo.insert()
   end
 
   @doc """
