@@ -40,7 +40,7 @@ defmodule Blog.MixProject do
   def application do
     [
       mod: {Blog.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth_google]
     ]
   end
 
@@ -70,6 +70,7 @@ defmodule Blog.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:ex_doc, "~> 0.19.3", only: [:dev]},
       {:earmark, "~> 1.3", only: [:dev]},
+      {:ueberauth_google, "~> 0.10"},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
     ]
   end
