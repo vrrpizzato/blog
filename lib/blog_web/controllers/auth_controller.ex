@@ -13,8 +13,6 @@ defmodule BlogWeb.AuthController do
       provider: provider
     }
 
-    IO.inspect(conn)
-
     render(conn, "index.html")
   end
 end
