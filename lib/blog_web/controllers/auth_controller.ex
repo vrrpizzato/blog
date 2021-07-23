@@ -1,6 +1,8 @@
 defmodule BlogWeb.AuthController do
   use BlogWeb, :controller
 
+  alias Blog.Accounts
+
   plug Ueberauth
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, %{"provider" => provider}) do
@@ -12,6 +14,19 @@ defmodule BlogWeb.AuthController do
       image: auth.info.image,
       provider: provider
     }
+
+    case Accounts.create_user(user) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "#{user.first_name}, seja bem-vindo!")
+        |> put_session(:user_id, user.id)
+        |> redirect(to: Routes.page_path(conn, :index))
+
+      {:error, _error} ->
+        conn
+        |> put_flash(:info, "Algo deu errado!")
+        |> redirect(to: Routes.page_path(conn, :index))
+    end
 
     render(conn, "index.html")
   end
