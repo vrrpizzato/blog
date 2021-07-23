@@ -55,9 +55,40 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
 
-export default socket
+const createSocket = (post_id) => {
+  let channel = socket.channel(`comments:${post_id}`, {})
+  channel.join()
+    .receive("ok", resp => { getComentarios(resp.comments) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
+
+  channel.on(`comments:${post_id}:new`, incluirComentario)
+
+
+  document.getElementById("btn-enviar-comentario").addEventListener("click", () => {
+    const content =  document.getElementById("comentario").value
+    console.log(content)
+    channel.push("comment:add", { content: content })
+    document.getElementById("comentario").value = ""
+  })
+}
+
+function getComentarios(comentarios) {
+  const listaDeComentarios = comentarios.map(comment => {
+    return template(comment)
+  })
+
+  document.querySelector(".collection").innerHTML = listaDeComentarios.join('')
+}
+
+function incluirComentario(event) {
+  console.log(comment)
+  document.querySelector(".collection").innerHTML += template(event.comment)
+}
+
+function template(comment) {
+  return `<p>${comment.content}</p>`
+ }
+
+// Exporting
+window.createSocket = createSocket

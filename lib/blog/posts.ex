@@ -7,6 +7,8 @@ defmodule Blog.Posts do
 
   def get_post!(id), do: Repo.get!(Post, id)
 
+  def get_post_comments!(id), do: Repo.get!(Post, id) |> Repo.preload(:comments)
+
   def create_post(attrs \\ %{}) do
     %Post{}
     |> Post.changeset(attrs)
