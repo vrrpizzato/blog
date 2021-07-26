@@ -1,4 +1,6 @@
 defmodule BlogWeb.Plug.SetUser do
+  @moduledoc false
+
   import Plug.Conn
 
   alias Blog.Accounts
