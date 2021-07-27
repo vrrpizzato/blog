@@ -35,7 +35,10 @@ defmodule Blog.Accounts do
       ** (Ecto.NoResultsError)
 
   """
+
   def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user(id), do: Repo.get(User, id)
 
   @doc """
   Creates a user.
@@ -61,6 +64,7 @@ defmodule Blog.Accounts do
       nil ->
         %User{}
         |> User.changeset(user)
+        |> Repo.insert()
 
       user ->
         {:ok, user}

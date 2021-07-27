@@ -6,7 +6,7 @@
       <%= link "Posts", to: Routes.post_path(@conn, :index)%>
     </li>
     <li>
-      <%= link "Logout", to: Routes.post_path(@conn, :logout)%>
+      <%= link "Logout", to: Routes.auth_path(@conn, :logout)%>
     </li>
   <% else %>
     <li><%= link "Logar", to: Routes.auth_path(@conn, :request, "google") %></li>

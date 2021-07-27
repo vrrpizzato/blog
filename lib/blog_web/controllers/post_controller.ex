@@ -68,7 +68,7 @@ defmodule BlogWeb.PostController do
     else
       conn
       |> put_flash(:error, "Você não possui permissão para isto.")
-      |> redirect(to: Routes.page_path(conn, :alarm_handler
+      |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
   end

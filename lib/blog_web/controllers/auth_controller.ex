@@ -21,10 +21,12 @@ defmodule BlogWeb.AuthController do
       provider: provider
     }
 
+    IO.inspect(user)
+
     case Accounts.create_user(user) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "#{user.first_name}, seja bem-vindo!")
+        |> put_flash(:info, "Seja bem-vindo!")
         |> put_session(:user_id, user.id)
         |> redirect(to: Routes.page_path(conn, :index))
 
