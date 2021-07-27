@@ -12,7 +12,8 @@ defmodule BlogWeb.PostControllerTest do
   }
 
   def fixture(:post) do
-    {:ok, post} = Blog.Posts.create_post(@valid_post)
+    user = Blog.Accounts.get_user!(1)
+    {:ok, post} = Blog.Posts.create_post(user, @valid_post)
     post
   end
 
@@ -25,22 +26,38 @@ defmodule BlogWeb.PostControllerTest do
     end
 
     test "entrar na página de criação de post", %{conn: conn} do
-      conn = get(conn, Routes.post_path(conn, :new))
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: 1)
+        |> get(Routes.post_path(conn, :new))
+
       assert html_response(conn, 200) =~ "Criar Post"
     end
 
+    test "entrar na página de criação de post sem auth", %{conn: conn} do
+      conn =
+        conn
+        |> get(Routes.post_path(conn, :new))
+
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
+      conn = get(conn, Routes.page_path(conn, :index))
+      assert html_response(conn, 200) =~ "Voce precisa estar Logado!"
+    end
+
     test "entrar na página de edição de post", %{conn: conn, post: post} do
-      conn = get(conn, Routes.post_path(conn, :edit, post))
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: 1)
+        |> get(Routes.post_path(conn, :edit, post))
+
       assert html_response(conn, 200) =~ "Editar Post"
     end
 
-    # test "verificação de post inválido", %{conn: conn} do
-    #   conn = post(conn, Routes.post_path(conn, :create), post: %{})
-    #   assert html_response(conn, 200) =~ "Campo obrigatório!"
-    # end
-
     test "edição de post", %{conn: conn, post: post} do
-      conn = put(conn, Routes.post_path(conn, :update, post), post: @update_post)
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: 1)
+        |> put(Routes.post_path(conn, :update, post), post: @update_post)
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.post_path(conn, :show, id)
@@ -49,14 +66,12 @@ defmodule BlogWeb.PostControllerTest do
       assert html_response(conn, 200) =~ "ECHO"
     end
 
-    # test "edição de post com campos inválidos" do
-    #  {:ok, post} =  Blog.Posts.create_post(@valid_post)
-    #  conn = put(conn, Routes.post_path(conn, :update, post), post: %{title: nil, description: nil})
-    #  assert html_responde(conn, 200) =~ "Editar Post!"
-    # end
-
     test "remoção de post", %{conn: conn, post: post} do
-      conn = delete(conn, Routes.post_path(conn, :delete, post))
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_id: 1)
+        |> delete(Routes.post_path(conn, :delete, post))
+
       assert redirected_to(conn) == Routes.post_path(conn, :index)
 
       assert_error_sent 404, fn ->
@@ -66,13 +81,17 @@ defmodule BlogWeb.PostControllerTest do
   end
 
   test "lista de posts", %{conn: conn} do
-    Blog.Posts.create_post(@valid_post)
+    user = Blog.Accounts.get_user!(1)
+    Blog.Posts.create_post(user, @valid_post)
     conn = get(conn, Routes.post_path(conn, :index))
     assert html_response(conn, 200) =~ "Phoenix Framework"
   end
 
   test "criação de post", %{conn: conn} do
-    conn = post(conn, Routes.post_path(conn, :create), post: @valid_post)
+    conn =
+      conn
+      |> Plug.Test.init_test_session(user_id: 1)
+      |> post(Routes.post_path(conn, :create), post: @valid_post)
 
     assert %{id: id} = redirected_params(conn)
     assert redirected_to(conn) == Routes.post_path(conn, :show, id)

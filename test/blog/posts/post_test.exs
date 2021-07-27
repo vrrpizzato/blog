@@ -13,20 +13,24 @@ defmodule Blog.PostsTest do
   }
 
   def post_fixture(attrs \\ %{}) do
-    {:ok, post} = Posts.create_post(@valid_post)
+    user = Blog.Accounts.get_user!(1)
+    {:ok, post} = Posts.create_post(user, @valid_post)
     post
   end
 
   describe "Testes de funcionalidades de Contexto do Post" do
     test "create_post" do
-      post = post_fixture()
+      user = Blog.Accounts.get_user!(1)
+      assert {:ok, %Post{} = post} = Posts.create_post(user, @valid_post)
       assert post.title == "Phoenix Framework"
       assert post.description == "Lorem Ipsum"
     end
 
     test "list_posts" do
       post = post_fixture()
-      assert Posts.list_posts() == [post]
+
+      assert Posts.list_posts()
+             |> Enum.count() == 2
     end
 
     test "get_post" do
