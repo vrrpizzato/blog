@@ -11,13 +11,10 @@ defmodule BlogWeb.CommentsChannelTest do
   describe "TESTE WEBSOCKETS" do
     setup do
       user = Blog.Accounts.get_user!(1)
+      token = Phoenix.Token.sign(BlogWeb.Endpoint, "blog_user", user.id)
       {:ok, post} = Blog.Posts.create_post(user, @valid_post)
-      {:ok, socket} = connect(UserSocket, %{})
+      {:ok, socket} = connect(UserSocket, %{"token" => token})
       {:ok, socket: socket, post: post}
-    end
-
-    test "deve conectar ao socket" do
-      {:ok, socket} = connect(UserSocket, %{})
     end
 
     test "deve conectar ao post via socket", %{socket: socket, post: post} do

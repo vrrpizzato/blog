@@ -31,5 +31,3 @@ post = %{
 
 {:ok, user} = Blog.Accounts.create_user(user)
 {:ok, post} = Posts.create_post(user, post)
-
-IO.inspect(user)

@@ -6,7 +6,7 @@ defmodule BlogWeb.PostController do
   plug :check_owner when action in [:edit, :update, :delete]
 
   def index(conn, _params) do
-    posts = Posts.list_posts()
+    posts = Posts.list_posts(conn.assigns[:user].id)
     render(conn, "index.html", posts: posts)
   end
 

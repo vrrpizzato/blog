@@ -59,22 +59,27 @@ socket.connect()
 const createSocket = (post_id) => {
   let channel = socket.channel(`comments:${post_id}`, {})
   channel.join()
-    .receive("ok", resp => { getComentarios(resp.comments) })
-    .receive("error", resp => { console.log("Unable to join", resp) })
+    .receive("ok", resp => {
+      getComentarios(resp.comments)
+    })
+    .receive("error", resp => {
+      console.log("Unable to join", resp)
+    })
 
   channel.on(`comments:${post_id}:new`, incluirComentario)
 
-
-  document.getElementById("btn-enviar-comentario").addEventListener("click", () => {
-    const content =  document.getElementById("comentario").value
-    console.log(content)
-    channel.push("comment:add", { content: content })
-    document.getElementById("comentario").value = ""
-  })
+  if (window.userToken) {
+    document.getElementById("btn-enviar-comentario").addEventListener("click", () => {
+      const content = document.getElementById("comentario").value
+      console.log(content)
+      channel.push("comment:add", { content: content })
+      document.getElementById("comentario").value = ""
+    })
+  }
 }
 
-function getComentarios(comentarios) {
-  const listaDeComentarios = comentarios.map(comment => {
+function getComentarios(comment) {
+  const listaDeComentarios = comment.map(comment => {
     return template(comment)
   })
 
@@ -87,7 +92,12 @@ function incluirComentario(event) {
 }
 
 function template(comment) {
-  return `<p>${comment.content}</p>`
+  return `
+    <li class="collection-item-avatar">
+      <img src="${comment.user.image}" alt="" class="circle">
+      <span class="title">${comment.user.email}</span>
+      <p>${comment.content}</p>
+    </li>`
  }
 
 // Exporting

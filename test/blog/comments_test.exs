@@ -11,13 +11,16 @@ defmodule Blog.CommentsTest do
     @invalid_attrs %{content: nil}
 
     def comment_fixture(attrs \\ %{}) do
+      post = Blog.PostsTest.post_fixture()
+      user = Blog.Accounts.get_user!(1)
+
       att =
         attrs
         |> Enum.into(@valid_attrs)
 
       {:ok, comment} =
         Blog.PostsTest.post_fixture().id
-        |> Comments.create_comment(att)
+        |> Comments.create_comment(user.id, att)
 
       comment
     end
@@ -34,7 +37,8 @@ defmodule Blog.CommentsTest do
 
     test "create_comment/1 with valid data creates a comment" do
       post = Blog.PostsTest.post_fixture()
-      assert {:ok, %Comment{} = comment} = Comments.create_comment(post.id, @valid_attrs)
+      user = Blog.Accounts.get_user!(1)
+      assert {:ok, %Comment{} = comment} = Comments.create_comment(post.id, user.id, @valid_attrs)
       assert comment.content == "some content"
     end
 

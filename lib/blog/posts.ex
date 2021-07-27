@@ -3,11 +3,20 @@ defmodule Blog.Posts do
 
   alias Blog.{Posts.Post, Repo}
 
-  def list_posts, do: Blog.Repo.all(Post)
+  import Ecto.Query, warn: false
+
+  def list_posts(user_id \\ nil) do
+    if user_id do
+      query = from p in Post, where: p.user_id == ^user_id
+      Blog.Repo.all(query)
+    else
+      Blog.Repo.all(Post)
+    end
+  end
 
   def get_post!(id), do: Repo.get!(Post, id)
 
-  def get_post_comments!(id), do: Repo.get!(Post, id) |> Repo.preload(:comments)
+  def get_post_comments!(id), do: Repo.get!(Post, id) |> Repo.preload(comments: [:user])
 
   def create_post(user, attrs \\ %{}) do
     user

@@ -21,8 +21,6 @@ defmodule BlogWeb.AuthController do
       provider: provider
     }
 
-    IO.inspect(user)
-
     case Accounts.create_user(user) do
       {:ok, user} ->
         conn
